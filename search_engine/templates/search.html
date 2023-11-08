@@ -3,13 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Search</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="{{ url_for('static', filename='js/search.js') }}"></script>
 </head>
 <body>
-    <div id="search-container">
-        <input type="text" id="search-box" placeholder="Enter search terms">
-        <button onclick="performSearch()">Search</button>
+    <form id="search-form" method="post" action="/search">
+        <input type="text" name="query" placeholder="Enter search terms">
+        <button type="submit">Search</button>
+    </form>
+
+    <div id="search-results">
+        <!-- Search results will be displayed here -->
     </div>
+
+    <script>
+        document.getElementById('search-form').onsubmit = function(event) {
+            event.preventDefault();
+
+            fetch('/search', {
+                method: 'POST',
+                body: new FormData(this)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Assuming the results are in an array
+                const resultsContainer = document.getElementById('search-results');
+                resultsContainer.innerHTML = '';
+                data.forEach(hit => {
+                    resultsContainer.innerHTML += `<div>${hit._source.content}</div>`; // Adjust according to your result structure
+                });
+            })
+            .catch(error => console.error('Error:', error));
+        };
+    </script>
 </body>
 </html>

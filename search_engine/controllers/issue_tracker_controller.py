@@ -1,3 +1,4 @@
+
 from services.search_service import SearchService
 
 class IssueTrackerController:
