@@ -1,3 +1,4 @@
+
 from elasticsearch import Elasticsearch
 
 class ElasticsearchManager:
@@ -11,3 +12,8 @@ class ElasticsearchManager:
     def search_documents(self, index, query):
         response = self.es.search(index=index, body=query)
         return response
+
+    def execute_search(self, query):
+        response = self.search_documents("dummy",query)
+        return response
+    

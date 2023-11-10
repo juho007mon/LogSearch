@@ -1,7 +1,7 @@
-"""
-  python -m unittest tests/test_elasticsearch_manager.py
-"""
 
+"""
+  python -m unittest  tests.test_elasticsearch_manager
+"""
 import unittest
 from services.elasticsearch_manager import ElasticsearchManager
 
