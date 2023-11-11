@@ -161,4 +161,4 @@ cython_debug/
 
 
 # Exclude IP related fils
-ip_config.json
+ip_*config.json

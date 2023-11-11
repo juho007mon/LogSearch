@@ -3,11 +3,21 @@
 import os
 import json
 
-IPCONFIG_JSON_FN = 'ip_config.json'
+from config import EnvConfig
 
 class IPConfig:
     version = 0.1
     test_jquery = 'project = MYPROJECT'
+
+    # possible subpaths
+    hwlog_subpaths = [
+        ['MY_Logs','CUST_HW']
+    ]
+    # possible filename pattern
+    logfns_regex = [
+        r'logfn\S*\.bin',
+        r'logfn\S*\.xlsx',
+    ]
 
     class someTypeE:
         car = 0
@@ -23,5 +33,5 @@ class IPConfig:
                 elif hasattr(cls.someTypeE, key):
                     setattr(cls.someTypeE, key, value)
 
-if os.path.exists(IPCONFIG_JSON_FN) :
-  IPConfig.update_from_json(IPCONFIG_JSON_FN)
+if os.path.exists(EnvConfig.IP_CONFIG_JSON) :
+    IPConfig.update_from_json(EnvConfig.IP_CONFIG_JSON)
