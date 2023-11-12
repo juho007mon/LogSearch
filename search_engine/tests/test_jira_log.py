@@ -23,13 +23,14 @@ class TestJiraLogs(unittest.TestCase):
           EnvConfig.JIRA_TOKEN,
         )
         # Check log parse Dump File
-        dumpProcess = CrashDumpProcessor.from_scratch_dir('C:\scratch')
+        dumpProcess = CrashDumpProcessor.from_scratch_dir(r'C:\scratch\LogSearch')
 
-        jquery = IPConfig.search_jquery
+        jquery = IPConfig.srch_jquery
         logging.info(jquery)
 
-        jira_entries = jiraServer.gen_srch_entries(jquery, EnvConfig.JiraCSV_E.LOG_KEYS, 100)
+        jira_entries = jiraServer.gen_srch_entries(jquery, EnvConfig.JiraCSV_E.LOG_KEYS, 20)
         jira_entries = dumpProcess.search_log_files(jira_entries) 
+        jira_entries = dumpProcess.copy_log_files(jira_entries)
         jira_entries = dumpProcess.parse_log_files(jira_entries)
 
         for entry in jira_entries:

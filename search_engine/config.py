@@ -1,6 +1,7 @@
 import os
 import logging
 
+# NOTE: Don't include any dependency on this file 
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -11,7 +12,7 @@ class EnvConfig:
   JIRA_URL  = os.getenv('JIRA_URL')
   JIRA_TOKEN = os.getenv('JIRA_TOKEN')
   IP_CONFIG_JSON = os.getenv('IP_CONFIG_JSON')
-  
+
   class JiraCSV_E:
     ISSUE_KEY    = r'Issue key'
     LOG_KEYS = [r'Logs', r'Crash Log location']
