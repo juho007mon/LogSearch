@@ -28,7 +28,7 @@ class TestJiraLogs(unittest.TestCase):
         jquery = IPConfig.srch_jquery
         logging.info(jquery)
 
-        jira_entries = jiraServer.gen_srch_entries(jquery, EnvConfig.JiraCSV_E.LOG_KEYS, 20)
+        jira_entries = jiraServer.gen_srch_entries(jquery, EnvConfig.JiraCSV_E.LOG_KEYS, 10)
         jira_entries = dumpProcess.search_log_files(jira_entries) 
         jira_entries = dumpProcess.copy_log_files(jira_entries)
         jira_entries = dumpProcess.parse_log_files(jira_entries)

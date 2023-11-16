@@ -160,5 +160,6 @@ cython_debug/
 #.idea/
 
 
-# Exclude IP related fils
+# Exclude IP related files
 ip_*config.json
+#.env

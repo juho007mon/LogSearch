@@ -6,7 +6,7 @@ import json
 import logging
 import subprocess
 
-from typing import Dict
+from typing import Dict, List
 from config import EnvConfig
 
 
@@ -14,12 +14,10 @@ def remove_extension(filename):
     return os.path.splitext(filename)[0]
 
 class LogInfo:
-    def __init__(self, config:Dict[str,str]):
+    def __init__(self, config:Dict[str,str|List]):
         assert isinstance(config, dict), "LogInfo : Unexpected Type"
         self.regex  = re.compile(config["regex"])
-        self.parser = config["parser"]
-        self.p_args = config["p_args"]
-        self.ouf_bfn = config["ouf_bfn"] # ouf_bfn={out_fntag}.xxxx
+        self.parser_cmd_args = config["parser_cmd_args"]
 
     def parse_log(self, in_fn:str, out_dir:str):
         if not os.path.exists(in_fn):
@@ -30,19 +28,14 @@ class LogInfo:
             return
 
         # Parser script is empty, so no need to parse
-        if len(self.parser) < 2 :
+        if len(self.parser_cmd_args) < 1 :
             return
 
         if self.regex.search(in_fn):
             # parse log
-            out_fntag=remove_extension(os.path.basename(in_fn))
-            out_fn = os.path.join(out_dir, self.ouf_bfn.format(out_fntag=out_fntag))
-            # parse log
-            cmd = ['python',
-                self.parser,
-                *(self.p_args.split(' ')),
-                out_fn,
-                in_fn
+            out_fntag = remove_extension(os.path.basename(in_fn))
+            cmd = [
+                carg.format(out_fntag=out_fntag,input_fn=in_fn) for carg in self.parser_cmd_args
             ]
             try:
                 logging.info(f"Script : {' '.join(cmd)}")
@@ -69,8 +62,8 @@ class IPConfig:
 
     # possible filename pattern
     logfn_infos = [
-        LogInfo({"regex":r'logfn\S*\.bin', "parser":"", "p_args":"", "ouf_bfn":""}),
-        LogInfo({"regex":r'logfn\S*\.xlsx', "parser":"", "p_args":"", "ouf_bfn":""}),
+        LogInfo({"regex":"logfn\\S*\\.xlsx", "parser_cmd_args":["echo","test", "{input_fn}"], "args_var":["input_fn"]}),
+        LogInfo({"regex":"binfn\\S*\\.bin", "parser_cmd_args":["echo","test", "{input_fn}"], "args_var":["input_fn"]}),
     ]
     
     class someTypeE:
