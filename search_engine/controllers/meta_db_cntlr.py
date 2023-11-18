@@ -3,7 +3,6 @@ import os
 import sqlite3
 from sqlite3 import Error, Connection
 
-
 class MetaDBCntlr:
     def __init__(self, db_fn:str):
         self.db_fn = os.path.realpath(db_fn)
