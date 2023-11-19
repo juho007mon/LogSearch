@@ -13,6 +13,8 @@ class EnvConfig:
   JIRA_TOKEN = os.getenv('JIRA_TOKEN')
   IP_CONFIG_JSON = os.getenv('IP_CONFIG_JSON')
   SQL_DB_FILE = os.getenv('SQL_DB_FILE')
+  IP = os.getenv('HOST_IP','0.0.0.0')
+  PORT = os.getenv('HOST_PORT','5000')
 
   class JiraCSV_E:
     ISSUE_KEY    = r'Issue key'

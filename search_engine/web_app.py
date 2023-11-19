@@ -8,15 +8,14 @@ from flask_sqlalchemy import SQLAlchemy
 # Config
 from ip_config import IPConfig
 from config import EnvConfig
+
 # Sub page
 from blueprints.search import search_bp
 from blueprints.issue_tracker import issue_tracker_bp
+
 # Modules
 from controllers.issue_tracker_controller import IssueTrackerController
 from utils.logger import cfg_dbg_logger
-
-
-
 
 #---------------------------------------------------------------------#
 #          APP                                                        #
@@ -43,29 +42,18 @@ def hello_world():
 
 
 #---------------------------------------------------------------------#
-#                                                                     #
 #     MAIN                                                            #
-#                                                                     #
 #---------------------------------------------------------------------#
 def main():
-  '''Entry point'''
-  parser = argparse.ArgumentParser(description='WebApp')
-  grp_misc = parser.add_argument_group('Misc', 'Miscellaneous analysis modes and output flags')
-  grp_misc.add_argument('--debug', action='store_true', help='Enable debug log')
+    '''Entry point'''
+    parser = argparse.ArgumentParser(description='WebApp')
+    grp_misc = parser.add_argument_group('Misc', 'Miscellaneous analysis modes and output flags')
+    grp_misc.add_argument('--debug', default=False, action='store_true', help='Enable debug log')
+    args = parser.parse_args()
 
-  args = parser.parse_args()
+    cfg_dbg_logger(app, args.debug)
 
-  debug = True if args.debug else False
-
-  cfg_dbg_logger(app, debug)
-
-  app.run(host='0.0.0.0', port=5000, debug=debug)
+    app.run(host=EnvConfig.IP, port=EnvConfig.PORT, debug=args.debug)
   
 if __name__ == "__main__":
-  if os.path.exists(LOG_FILE):
-    os.remove(LOG_FILE)
-  main()
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    main() 
