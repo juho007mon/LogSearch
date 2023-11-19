@@ -1,4 +1,4 @@
-@echo off
+:: @echo off
 
 rem Load Enviroment variable from .env file
 for /f "delims=# tokens=1,*" %%a in ('findstr /v /r "^#" .env') do (
@@ -17,4 +17,4 @@ for %%a in (%L_VARIABLES%) do (
 )
 
 rem Starting Elasticsearch with the specified configuration file
-"%ES_DIR%\bin\elasticsearch.bat" -Epath.conf="%ES_CONFIG%"
+"%ES_DIR%\bin\elasticsearch.bat"

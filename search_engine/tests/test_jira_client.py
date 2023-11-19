@@ -5,9 +5,10 @@
 import unittest
 import logging
 
-from config import EnvConfig, config_logging
+from config import EnvConfig
 from ip_config import IPConfig
 from clients.jira_client import JiraClient
+from utils.logger import config_logging
 
 class TestJiraClient(unittest.TestCase):
     def setUp(self):

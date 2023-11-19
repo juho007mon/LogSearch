@@ -5,9 +5,10 @@
 import unittest
 import logging
 
-from config import EnvConfig, config_logging
+from config import EnvConfig
 from ip_config import IPConfig
 
+from utils.logger import config_logging
 from clients.jira_client import JiraClient
 from processors.crash_dump_processor import CrashDumpProcessor
 
