@@ -8,10 +8,11 @@ import logging
 import pandas as pd
 
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Tuple
+from collections import OrderedDict
 from jira import Issue, JIRA, JIRAError
 
-from collections import OrderedDict
-from config import EnvConfig
+from search_engine.config import EnvConfig
+from search_engine.models.jira_info import JiraInfo
 
 MAX_SEARCH_RESULT = 1000
 

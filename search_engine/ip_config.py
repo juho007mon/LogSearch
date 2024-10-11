@@ -5,56 +5,11 @@ import re
 import json
 import logging
 import subprocess
-
 from typing import Dict, List
-from config import EnvConfig
 
+from search_engine.config import EnvConfig
+from search_engine.models.log_info import LogInfo
 
-def remove_extension(filename):
-    return os.path.splitext(filename)[0]
-
-class LogInfo:
-    def __init__(self, config:Dict[str,str|List]):
-        assert isinstance(config, dict), "LogInfo : Unexpected Type"
-        self.regex  = re.compile(config["regex"])
-        self.parser_cmd_args = config["parser_cmd_args"]
-
-    def parse_log(self, in_fn:str, out_dir:str):
-        if not os.path.exists(in_fn):
-            logging.error(f"{in_fn} (file) not found")
-            return
-        if not os.path.exists(in_fn):
-            logging.error(f"{out_dir} (dir) not found")
-            return
-
-        # Parser script is empty, so no need to parse
-        if len(self.parser_cmd_args) < 1 :
-            return
-
-        if self.regex.search(in_fn):
-            # parse log
-            out_fntag = remove_extension(os.path.basename(in_fn))
-            # TODO : iter self.args_var 
-            cmd = [
-                carg.format(
-                    out_path=out_dir,
-                    out_fntag=out_fntag,
-                    input_fn=in_fn,
-                    ) for carg in self.parser_cmd_args
-            ]
-            try:
-                logging.info(f"Script : {' '.join(cmd)}")
-                proc = subprocess.Popen(cmd, universal_newlines=True)
-                proc.wait()
-                stdout, stderr = proc.communicate()
-                if proc.returncode != 0:
-                    logging.error(f"Script Error: {stderr}")
-                else:
-                    logging.info(f"Script Output: {stdout}")
-
-            except subprocess.CalledProcessError as ex:
-                logging.error('"{cmd}" returned code {rc}'.format(cmd=' '.join(cmd), rc=ex.returncode))
-            
 class IPConfig:
     version = 0.1
     test_jquery = 'project = MYPROJECT'
@@ -67,8 +22,8 @@ class IPConfig:
 
     # possible filename pattern
     logfn_infos = [
-        LogInfo({"regex":"logfn\\S*\\.xlsx", "parser_cmd_args":["echo","test", "{input_fn}"], "args_var":["input_fn"]}),
-        LogInfo({"regex":"binfn\\S*\\.bin", "parser_cmd_args":["echo","test", "{input_fn}"], "args_var":["input_fn"]}),
+        LogInfo.from_dict({"regex":"logfn\\S*\\.xlsx", "parser_cmd_args":["echo","test", "{input_fn}"], "args_var":["input_fn"]}),
+        LogInfo.from_dict({"regex":"binfn\\S*\\.bin", "parser_cmd_args":["echo","test", "{input_fn}"], "args_var":["input_fn"]}),
     ]
     
     class someTypeE:

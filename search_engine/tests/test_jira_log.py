@@ -2,15 +2,17 @@
   python -m unittest  tests.test_jira_log
 """
 
+import os
+import sys
 import unittest
 import logging
 
-from config import EnvConfig
-from ip_config import IPConfig
+from search_engine.config import EnvConfig
+from search_engine.ip_config import IPConfig
 
-from utils.logger import config_logging
-from clients.jira_client import JiraClient
-from processors.crash_dump_processor import CrashDumpProcessor
+from search_engine.utils.logger import config_logging
+from search_engine.clients.jira_client import JiraClient
+from search_engine.processors.crash_dump_processor import CrashDumpProcessor
 
 class TestJiraLogs(unittest.TestCase):
     def setUp(self):
